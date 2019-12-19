@@ -11,7 +11,7 @@ RUN set -ex && \
 
 WORKDIR /tmp
 RUN set -x && \
-    curl -SL -x dobo:dobo@10.0.75.1:1080 https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/frp_${FRP_VERSION}_linux_amd64.tar.gz -O && \
+    curl -SL https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/frp_${FRP_VERSION}_linux_amd64.tar.gz -O && \
     tar -zxf frp_${FRP_VERSION}_linux_amd64.tar.gz && \
     mv frp_${FRP_VERSION}_linux_amd64 /var/local/frp && \
     mkdir -p /var/local/frp/conf && \
