@@ -4,10 +4,16 @@
 # Version:1.3.20180615
 # Created Time: 2018-06-15
 #########################################################################
+__readINI() {
+ INIFILE=$1; SECTION=$2; ITEM=$3
+ _readIni=`awk -F '=' '/\['$SECTION'\]/{a=1}a==1&&$1~/'$ITEM'/{print $2;exit}' $INIFILE`
+echo ${_readIni}
+}
 
+set -e FRP_BIN="/usr/local/frps"
+if [ "$1" = 's' ] || [ "$1" = 'frps' ]; then
 set -e
-FRPS_BIN="/usr/local/frps/frps"
-FRPS_CONF="/usr/local/frps/frps.ini"
+FRPS_CONF="/usr/local/frp/conf/frps.ini"
 FRPS_LOG="/var/log/frps.log"
 # ======= FRPS CONFIG ======
 set_token=${set_token:-password}                               #token = password
@@ -75,27 +81,55 @@ subdomain_host = ${set_subdomain_host}
 tcp_mux = ${set_tcp_mux}
 EOF
 
-echo "+---------------------------------------------+"
-echo "|              Frps On Docker                 |"
-echo "+---------------------------------------------+"
-echo "|       Images:{frps:latest}           |"
-echo "+---------------------------------------------+"
-echo "|     Intro: https://github.com/clangcn       |"
-echo "+---------------------------------------------+"
-echo " dashboard_user = ${set_dashboard_user}"
-echo " dashboard_pwd = ${set_dashboard_pwd}"
-echo " token = ${set_token}"
-echo " subdomain_host = ${set_subdomain_host}"
-echo " max_pool_count = ${set_max_pool_count}"
-echo " max_ports_per_client = ${set_max_ports_per_client}"
-echo " authentication_timeout = ${set_authentication_timeout}"
-echo " log_level = ${set_log_level}"
-echo " log_max_days = ${set_log_max_days}"
-echo " tcp_mux = ${set_tcp_mux}"
-echo "+---------------------------------------------+"
-rm -f ${FRPS_LOG} > /dev/null 2>&1
-echo "Starting frps $(${FRPS_BIN} -v) ..."
-${FRPS_BIN} -c ${FRPS_CONF} &
-sleep 0.3
-netstat -ntlup | grep "frps"
-exec "tail" -f ${FRPS_LOG}
+    echo "+---------------------------------------------+"
+    echo "|              Frps On Docker                 |"
+    echo "+---------------------------------------------+"
+    echo "|       Images:{frps:latest}           |"
+    echo "+---------------------------------------------+"
+    echo "|     Intro: https://github.com/clangcn       |"
+    echo "+---------------------------------------------+"
+    echo " dashboard_user = ${set_dashboard_user}"
+    echo " dashboard_pwd = ${set_dashboard_pwd}"
+    echo " token = ${set_token}"
+    echo " subdomain_host = ${set_subdomain_host}"
+    echo " max_pool_count = ${set_max_pool_count}"
+    echo " max_ports_per_client = ${set_max_ports_per_client}"
+    echo " authentication_timeout = ${set_authentication_timeout}"
+    echo " log_level = ${set_log_level}"
+    echo " log_max_days = ${set_log_max_days}"
+    echo " tcp_mux = ${set_tcp_mux}"
+    echo "+---------------------------------------------+"
+    rm -f ${FRPS_LOG} > /dev/null 2>&1
+    echo "Starting frps $(${FRP_BIN} -v) ..."
+    ${FRP_BIN} -c ${FRPS_CONF} &
+    sleep 0.3
+    netstat -ntlup | grep "frps"
+    exec "tail" -f ${FRPS_LOG}
+fi
+
+if [ "$1" = 'c' ] || [ "$1" = 'frpc' ]; then
+    set -e
+    FRPC_CONF="/usr/local/frp/conf/frpc.ini"
+    FRPC_LOG=$(__readINI ${FRPC_CONF} common log_file)
+    str_log_level=${str_log_level:-info}   # set log level: debug, info, warn, error
+
+    echo "+---------------------------------------------+"
+    echo "|              Frpc On Docker                 |"
+    echo "+---------------------------------------------+"
+    echo "|       Images:{frpc-docker:latest}           |"
+    echo "+---------------------------------------------+"
+    echo "|     Intro: https://github.com/clangcn       |"
+    echo "+---------------------------------------------+"
+    echo ""
+    if [ ! -r ${FRPC_CONF} ]; then
+        echo "config file ${FRPC_CONF} not found"
+        exit 1
+    fi
+    [ -z ${FRPC_LOG} ] && echo "Log file not setting,exit!" && exit 1
+    touch ${FRPC_LOG} > /dev/null 2>&1
+    echo "Starting frpc $(${FRPC_BIN} -v) ..."
+    ${FRPC_BIN} -c ${FRPC_CONF} &
+    exec "tail" -f ${FRPC_LOG}
+fi
+
+exec "$@"
