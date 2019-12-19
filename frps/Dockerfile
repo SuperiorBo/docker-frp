@@ -5,8 +5,11 @@ LABEL MAINTAINER=chobon@aliyun.com
 
 ARG FRP_VERSION=0.29.0
 
+# change ALIYUN apk source
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
 RUN set -ex \
-    && apk add --no-cache pcre bash && \
+    && apk add --no-cache pcre curl && \
     [ ! -d /usr/local/frps ] \
     && mkdir -p /usr/local/frps && cd /usr/local/frps
 
@@ -19,10 +22,6 @@ RUN set -x \
     && apt remove -y wget \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
-
-
-
-
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh /usr/local/frps/frps
