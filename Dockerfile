@@ -1,17 +1,15 @@
 FROM alpine-base:latest
 LABEL MAINTAINER=chobon@aliyun.com
 
-ARG FRP_VERSION=0.29.0
+ARG FRP_VERSION=0.30.0
 
-RUN set -ex && \
-    apk add --no-cache pcre curl && \
-    [ ! -d /usr/local/frp ] && \
-    mkdir -p /usr/local/frp && \
-    cd /usr/local/frp
+ENV FRP_DOMAIN=frp \
+    FRP_DATA_DIR=/data/frp \
+    FRP_CONFIG_DIR=/etc/frp/conf.d
 
 WORKDIR /tmp
 RUN set -x && \
-    curl -SL https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/frp_${FRP_VERSION}_linux_amd64.tar.gz -O && \
+    curl -SL -x 10.0.75.1:1080 https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/frp_${FRP_VERSION}_linux_amd64.tar.gz -O && \
     tar -zxf frp_${FRP_VERSION}_linux_amd64.tar.gz && \
     mv frp_${FRP_VERSION}_linux_amd64 /var/local/frp && \
     mkdir -p /var/local/frp/conf && \
@@ -22,4 +20,6 @@ VOLUME /var/frp/conf    # conf被配置成了卷，方便以后修改frps.ini
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh /usr/local/frp
-ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/entrypoint.sh"]
+
+CMD []

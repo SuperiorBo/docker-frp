@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv sh
+
+#
+# This script will wait until another Consul server is available before starting Consul.
+#
+
+
+
+# Start Frp.
+exec s6-setuidgid frp redis-server /etc/redis.conf;
