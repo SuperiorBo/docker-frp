@@ -7,4 +7,4 @@
 
 
 # Start Frp.
-exec s6-setuidgid frp redis-server /etc/redis.conf;
+exec s6-setuidgid /entrypoint.sh;

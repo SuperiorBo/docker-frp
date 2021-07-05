@@ -10,7 +10,8 @@ __readINI() {
 echo ${_readIni}
 }
 
-set -e FRP_BIN="/usr/local/frps"
+set -e FRP_BIN="/usr/local/frp"
+
 if [ "$1" = 's' ] || [ "$1" = 'frps' ]; then
 set -e
 FRPS_CONF="/usr/local/frp/conf/frps.ini"
@@ -127,8 +128,8 @@ if [ "$1" = 'c' ] || [ "$1" = 'frpc' ]; then
     fi
     [ -z ${FRPC_LOG} ] && echo "Log file not setting,exit!" && exit 1
     touch ${FRPC_LOG} > /dev/null 2>&1
-    echo "Starting frpc $(${FRPC_BIN} -v) ..."
-    ${FRPC_BIN} -c ${FRPC_CONF} &
+    echo "Starting frpc $(${FRP_BIN} -v) ..."
+    ${FRP_BIN} -c ${FRPC_CONF} &
     exec "tail" -f ${FRPC_LOG}
 fi
 

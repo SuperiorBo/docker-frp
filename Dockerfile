@@ -12,16 +12,15 @@ RUN set -x && \
     apk add --update --no-cache curl && \
     curl -SL https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/frp_${FRP_VERSION}_linux_amd64.tar.gz -O && \
     tar -zxf frp_${FRP_VERSION}_linux_amd64.tar.gz && \
-    mkdir /var/local/frp && \
-    mv frp_${FRP_VERSION}_linux_amd64 /var/local/frp && \
     mkdir -p /var/local/frp/conf && \
+    mv frp_${FRP_VERSION}_linux_amd64 /var/local/frp && \
     apk del curl && \
     rm -rf /var/cache/apk/*
 
 VOLUME /var/frp/conf    # conf被配置成了卷，方便以后修改frps.ini
 
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh /usr/local/frp
+RUN chmod +x /entrypoint.sh
 #ENTRYPOINT ["/entrypoint.sh"]
 
 CMD []
