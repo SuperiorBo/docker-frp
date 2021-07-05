@@ -16,8 +16,8 @@ RUN set -x && \
     mv frp_${FRP_VERSION}_linux_amd64 /var/local/frp && \
     apk del curl && \
     rm -rf /var/cache/apk/*
-
-VOLUME /var/frp/conf    # conf被配置成了卷，方便以后修改frps.ini
+#conf被配置成了卷，方便以后修改frps.ini
+VOLUME /var/frp/conf    
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
