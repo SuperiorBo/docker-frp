@@ -12,6 +12,7 @@ RUN set -x && \
     apk add --update --no-cache curl && \
     curl -SL https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/frp_${FRP_VERSION}_linux_amd64.tar.gz -O && \
     tar -zxf frp_${FRP_VERSION}_linux_amd64.tar.gz && \
+    mkdir /var/local/frp && \
     mv frp_${FRP_VERSION}_linux_amd64 /var/local/frp && \
     mkdir -p /var/local/frp/conf && \
     apk del curl && \
