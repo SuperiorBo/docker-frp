@@ -1,4 +1,4 @@
-FROM alpine-base:latest
+FROM dobor/alpine-base:latest
 LABEL MAINTAINER=chobon@aliyun.com
 
 ARG FRP_VERSION=0.37.0
