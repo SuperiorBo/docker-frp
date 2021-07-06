@@ -6,7 +6,7 @@
 # A literal address or host name for IPv6 must be enclosed
 # in square brackets, as in "[::1]:80", "[ipv6-host]:http" or "[ipv6-host%zone]:80"
 server_addr = {{ .Envs.FRP_SERVER_ADDR }}
-server_port = 7000
+server_port = {{ .Envs.FRP_SERVER_PORT }}
 
 # for authentication
 token = {{ .Envs.FRP_TOKEN }}
@@ -39,7 +39,7 @@ protocol = tcp
 [web01]
 type = https
 local_ip = 127.0.0.1
-local_port = 8000
+local_port = 80
 use_encryption = false
 use_compression = false
 

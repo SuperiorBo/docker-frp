@@ -18,8 +18,15 @@ if [ -z "$FRPC_CONF" ]; then
     printf "/etc/frp/$FRP_MODE.ini" > /var/run/s6/container_environment/FRPC_CONF
 fi
 
-if [ -z "$FRP_SERVER_ADDR" ]; then
-    printf "0.0.0.0" > /var/run/s6/container_environment/FRP_SERVER_ADDR
+if [ $FRP_MODE = 'c' ] || [ $FRP_MODE = 'frpc' ]; then
+
+    if [ -z "$FRP_SERVER_ADDR" ]; then
+        printf "0.0.0.0" > /var/run/s6/container_environment/FRP_SERVER_ADDR
+    fi
+
+    if [ -z "$FRP_SERVER_PORT" ]; then
+        printf "7000" > /var/run/s6/container_environment/FRP_SERVER_PORT
+    fi
 fi
 
 if [ -z "$FRP_TOKEN" ]; then

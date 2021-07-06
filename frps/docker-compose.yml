@@ -6,22 +6,12 @@ services:
     container_name: frps-docker
     hostname: frps-docker
     environment:
-      - set_token=password
-      - set_subdomain_host=
-      - set_dashboard_user=admin
-      - set_dashboard_pwd=admin
-      - set_max_pool_count=50
-      - set_max_ports_per_client=0
-      - set_authentication_timeout=900
-      - set_log_level=info
-      - set_log_max_days=3
-      - set_tcp_mux=true
+      - FRP_TOKEN=${TOKEN}
+      - FRP_MODE=frps
     ports:
-      - "6443:7000/tcp"
-      - "6443:7000/udp"
-      - "6444:7001/udp"
-      - "7443:7500/tcp"
-      - "8888:80/tcp"
-      - "8443:443/tcp"
-    restart: always
-    command: frps
+      - "${BIND_PORT}:7000/tcp"
+      - "${BIND_PORT}:7000/udp"
+      - "${BIND_UDP_PORT}:7001/udp"
+      - "${DASHBOARD_PORT}:7500/tcp"
+      - "${VHOST_HTTP_PORT}:80/tcp"
+      - "${VHOST_HTTPS_PORT}:443/tcp"

@@ -8,6 +8,7 @@ services:
     volumes:
       - "./frpc.ini:/etc/frp/frpc.ini"
     environment:
-      - SERVER_IP
-      - PASSWORD
+      - FRP_SERVER_ADDR=${SERVER_ADDR}
+      - FRP_SERVER_PORT=${SERVER_PORT}
+      - FRP_TOKEN=${TOKEN}
       - FRP_MODE=frpc

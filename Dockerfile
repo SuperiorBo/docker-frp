@@ -15,7 +15,7 @@ RUN set -x && \
     mv frp_${FRP_VERSION}_linux_amd64/frps /usr/bin/ && \
     rm -rf frp_${FRP_VERSION}_linux_amd64 && \
     apk del curl && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* /tmp
 
 # copy local files
 ADD root /
