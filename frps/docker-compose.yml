@@ -21,7 +21,7 @@ services:
       - "6443:5443/udp"
       - "6444:5444/udp"
       - "7443:5445/tcp"
-      - "8080:80/tcp"
+      - "8888:80/tcp"
       - "8443:443/tcp"
     restart: always
     command: frps

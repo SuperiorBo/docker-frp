@@ -6,8 +6,8 @@ services:
     container_name: frpc-docker
     hostname: frpc-docker
     volumes:
-      - "./frpc.ini:/usr/local/frp/conf"
+      - "./frpc.ini:/etc/frp/frpc.ini"
     environment:
-      - str_log_level=info
-    restart: always
-    command: frpc
+      - SERVER_IP=136.244.110.67
+      - PASSWORD=chobon
+      - FRP_MODE=frpc

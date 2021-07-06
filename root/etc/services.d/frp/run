@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv sh
+
+
+# Start Frp.
+if [ $FRP_MODE = 's' ] || [ $FRP_MODE = 'frps' ]; then
+    exec /usr/bin/frps -c $FRPS_CONF
+fi
+
+if [ $FRP_MODE = 'c' ] || [ $FRP_MODE = 'frpc' ]; then
+    exec /usr/bin/frpc -c $FRPC_CONF
+fi

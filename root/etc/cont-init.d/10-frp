@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv sh
+
+# Unless this has already been defined, set it.
+
+if [ -z "$FRP_MODE" ]; then
+    printf "frps" > /var/run/s6/container_environment/FRP_MODE
+fi
+
+if [ -z "$FRP_LOG_FILE" ]; then
+    printf "/var/log/frp/$FRP_MODE.log" > /var/run/s6/container_environment/FRP_LOG_FILE
+fi
+
+if [ -z "$FRPS_CONF" ]; then
+    printf "/etc/frp/$FRP_MODE.ini" > /var/run/s6/container_environment/FRPS_CONF
+fi
+
+if [ -z "$FRPC_CONF" ]; then
+    printf "/etc/frp/$FRP_MODE.ini" > /var/run/s6/container_environment/FRPC_CONF
+fi
+
+if [ -z "$FRP_SERVER_ADDR" ]; then
+    printf "0.0.0.0" > /var/run/s6/container_environment/FRP_SERVER_ADDR
+fi
+
+if [ -z "$FRP_TOKEN" ]; then
+    printf "12345678" > /var/run/s6/container_environment/FRP_TOKEN
+fi
+
+# if [ -f "$FRP_CONF_DIR" ]; then
+#     mkdir -p /etc/frp
+# fi

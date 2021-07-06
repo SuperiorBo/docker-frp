@@ -3,24 +3,24 @@ LABEL MAINTAINER=chobon@aliyun.com
 
 ARG FRP_VERSION=0.37.0
 
-ENV FRP_DOMAIN=frp \
-    FRP_DATA_DIR=/data/frp \
-    FRP_CONFIG_DIR=/etc/frp/conf.d
+ENV FRP_MODE=frps
 
 WORKDIR /tmp
+
 RUN set -x && \
     apk add --update --no-cache curl && \
     curl -SL https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/frp_${FRP_VERSION}_linux_amd64.tar.gz -O && \
     tar -zxf frp_${FRP_VERSION}_linux_amd64.tar.gz && \
-    mkdir -p /var/local/frp/conf && \
-    mv frp_${FRP_VERSION}_linux_amd64 /var/local/frp && \
+    mv frp_${FRP_VERSION}_linux_amd64/frpc /usr/bin/ && \
+    mv frp_${FRP_VERSION}_linux_amd64/frps /usr/bin/ && \
+    rm -rf frp_${FRP_VERSION}_linux_amd64 && \
     apk del curl && \
     rm -rf /var/cache/apk/*
-#conf被配置成了卷，方便以后修改frps.ini
-VOLUME /var/frp/conf    
 
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-#ENTRYPOINT ["/entrypoint.sh"]
+# copy local files
+ADD root /
+
+#conf被配置成了卷，方便以后修改frps.ini
+VOLUME /etc/frp
 
 CMD []
