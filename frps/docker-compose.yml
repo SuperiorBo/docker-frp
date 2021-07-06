@@ -17,10 +17,10 @@ services:
       - set_log_max_days=3
       - set_tcp_mux=true
     ports:
-      - "6443:5443/tcp"
-      - "6443:5443/udp"
-      - "6444:5444/udp"
-      - "7443:5445/tcp"
+      - "6443:7000/tcp"
+      - "6443:7000/udp"
+      - "6444:7001/udp"
+      - "7443:7500/tcp"
       - "8888:80/tcp"
       - "8443:443/tcp"
     restart: always

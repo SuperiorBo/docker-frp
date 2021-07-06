@@ -8,6 +8,6 @@ services:
     volumes:
       - "./frpc.ini:/etc/frp/frpc.ini"
     environment:
-      - SERVER_IP=136.244.110.67
-      - PASSWORD=chobon
+      - SERVER_IP
+      - PASSWORD
       - FRP_MODE=frpc
